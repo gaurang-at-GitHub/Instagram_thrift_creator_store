@@ -1,0 +1,130 @@
+//Category - thrifted AND Hand-made
+//Product Image
+// Product details- Name, Description, Available Stock, size, colour,Price condition details for thrifted
+//Product_type is for knowing if product is handmade/ thrift
+//User-Role (customer or owner)
+//Cart
+//Payment
+//Order
+//Track & Delivery Status
+
+product [icon: box] {
+  id serial pk
+  image_url text not null
+  product_typeId int fk 
+  name varchar(255) not null
+  description text not null
+  size varchar(100)
+  colour varchar(100)
+  Stock_Available boolean not null
+  price numeric not null
+}
+
+thrift [icon: crosshair]{
+  id int pk
+  product_type_id int fk 
+  quantity int
+  isUnique boolean default(true)
+  condition_scale enum[1,2,3,4,5]
+  damaged text 
+  isBranded boolean default(false)
+  brandName varchar(100)
+  purchaseLocation text
+}
+
+handmade [icon: hand] {
+  id int pk
+  product_type_id int fk 
+  quantity int
+  isUnique boolean default(true)
+  batchNumber varchar(50)
+  productionDate date
+  artist varchar(100)
+}
+
+product_type [icon: tag] {
+  id    int pk
+  type  varchar(50)   
+}
+
+user [icon: user] {
+  id serial pk
+  firstName varchar(45) not null
+  lastName varchar(45)
+  phone varchar(15) unique not null
+  email varchar(255) unique not null
+  password varchar(256) not null
+  role enum [customer, owner]
+  verification_Token text
+  refresh_token text
+  forgot_password_token text
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+address [icon: home] {
+  id serial pk
+  user_id int fk
+  country varchar(100)
+  state varchar(100)
+  city varchar(100)
+  address text
+  pincode varchar(15)
+}
+
+cart [icon: shopping-cart] {
+  id int pk
+  user_id int fk
+  products int fk 
+  quantity int
+  itemTotal int
+  orderValue int
+}
+
+order [icon : gift] {
+  id serial pk
+  user_id int fk
+  paymentStatus boolean default(false)
+  products int fk 
+  quantity int
+  itemTotal varchar
+  orderValue varchar
+}
+
+payment [icon : payment]{
+   id serial pk
+   user_id int fk
+   order_id int fk
+   success boolean default(true)
+   time timestamp
+}
+
+track [icon: traffic]{
+  id serial pk
+  order_id int fk
+  status varchar(100) 
+  updated_at timestamp
+}
+
+
+
+
+product.product_typeId - product_type.id
+thrift.product_type_id - product_type.id
+handmade.product_type_id - product_type.id
+
+
+user.id - cart.user_id 
+cart.id < cart_item.cart_id 
+product.id < cart_item.product_id
+
+
+user.id < order.user_id 
+order.id < order_item.order_id 
+product.id < order_item.product_id
+
+ 
+user.id < address.user_id
+order.id - payment.order_id 
+user.id < payment.user_id 
+order.id < track.order_id
