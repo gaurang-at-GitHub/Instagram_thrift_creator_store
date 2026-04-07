@@ -8,4 +8,4 @@ User entity is connected address and cart, order, payment.
 For tracking we have track entity connected to order entity.
 You can see all the relationships that entities are having with each other in the screenshot.(i will be using diagram.db next time as i am not comfortable with eraser, if it looks complicated)
 
-I have shared the code text file as code-export.. named as. First i wrote the commented things that helped me to understand which  entitites are all required and the field types as well as field properties vague overview. I am sharing what i wrote in one go.
+First i wrote the commented things that helped me to understand which entitites are all required and the field types as well as field properties vague overview. I am sharing what i wrote in one go.
